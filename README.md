@@ -173,7 +173,263 @@ def keys_to_output(keys):
     else:
         output[1] = 1
     return output
-    ```
+ 
+ ```
+  and saving it as np array  
+  
+  
+  ```python
+  file_name = 'training_data.npy'
+
+if os.path.isfile(file_name):
+    print('File exists, loading previous data!')
+    training_data = list(np.load(file_name))
+else:
+    print('File does not exist, starting fresh!')
+    training_data = []
     
+  ```
+  
+  ## data pre-processing
+  
+  Loading data into memory and creating dataframe using pandas
+  
+  ```python
+  train_data = np.load('training_data.npy')
+  df = pd.DataFrame(train_data)
+  
+  lefts = []
+rights = []
+forwards = []
+
+shuffle(train_data)
+
+for data in train_data:
+    img = data[0]
+    choice = data[1]
+
+    if choice == [1,0,0]:
+        lefts.append([img,choice])
+    elif choice == [0,1,0]:
+        forwards.append([img,choice])
+    elif choice == [0,0,1]:
+        rights.append([img,choice])
+    else:
+        print('no matches')
+  ```
+  
+  Now naturally due to game nature the **foward** data will be much more compare to **left & right**
+  
+  so we have to take care of that part
+  
+  ```python
+  forwards = forwards[:len(lefts)][:len(rights)]
+lefts = lefts[:len(forwards)]
+rights = rights[:len(forwards)]
+
+final_data = forwards + lefts + rights
+shuffle(final_data)
+
+np.save('training_data.npy', final_data)
+  ```
+  this will equalize all three of category
+  
+  
+  ### cross checking data and its output
+  
+  ```python
+  import numpy
+import PIL
+from PIL import Image
+from matplotlib.pyplot import imshow
+import random
+
+random_frame = random.randint(1,14574)
+
+
+image_arr = df_new[0].iloc[random_frame]
+move = df_new[1].iloc[random_frame]
+
+img = PIL.Image.fromarray(image_arr)
+
+
+if move == [0,1,0]:
+    print("foward")
+elif move == [1,0,0]:
+    print("left")
+elif move == [0,0,1]:
+    print("right")
+    
+    
+print("frame : "+str(random_frame))
+
+
+img
+```
+this will print image and its output
+
+## start training
+
+For neural network model we will use **Alexnet**
+
+```python
+# creating model instance
+
+WIDTH = 160
+HEIGHT = 120
+LR = 1e-3
+EPOCHS = 10
+MODEL_NAME = 'pygtaSa-{}-{}-{}-epochs.model'.format(LR, 'alexnetv2',EPOCHS)
+
+model = alexnet(WIDTH, HEIGHT, LR)
+```
+
+loading training data into memory
+
+```pyhon
+train_data = np.load('training_data.npy')
+
+train = train_data[:-500]
+test = train_data[-500:]
+
+#(-1,w,h,1) reshape because -1 means that the length in that dimension is inferred. 
+# This is done based on the constraint that the number of elements in an
+# ndarray or Tensor when reshaped must remain the same. In the tutorial,
+# each image is a row vector (784 elements) and 
+# there are lots of such rows (let it be n, so there are 784n elements).
+# So, when you write
+
+# x_image = tf.reshape(x, [-1, 28, 28, 1])
+
+# TensorFlow can infer that -1 is n.
+
+#ref : https://stackoverflow.com/questions/41848660/why-the-negative-reshape-1-in-mnist-tutorial/41848962
+
+
+
+X = np.array([i[0] for i in train]).reshape(-1,WIDTH,HEIGHT,1)
+Y = [i[1] for i in train]
+
+test_x = np.array([i[0] for i in test]).reshape(-1,WIDTH,HEIGHT,1)
+test_y = [i[1] for i in test]
+```
+
+Start training
+
+```python
+
+model.fit({'input': X}, {'targets': Y}, n_epoch=EPOCHS, validation_set=({'input': test_x}, {'targets': test_y}), 
+    snapshot_step=500, show_metric=True, run_id=MODEL_NAME)
+
+model.save(MODEL_NAME)
+```
+  
+this should save model files in directoy to use that for training 
+
+```python
+# test_model.py
+
+import numpy as np
+from grabscreen import grab_screen
+import cv2
+import time
+from directkeys import PressKey,ReleaseKey, W, A, S, D
+from alexnet import alexnet
+from getkeys import key_check
+
+import random
+
+WIDTH = 160
+HEIGHT = 120
+LR = 1e-3
+EPOCHS = 10
+MODEL_NAME = 'pygta5-car-fast-{}-{}-{}-epochs-300K-data.model'.format(LR, 'alexnetv2',EPOCHS)
+
+t_time_long = 0.5
+t_time = 0.05
+
+
+def straight():
+##    if random.randrange(4) == 2:
+##        ReleaseKey(W)
+##    else:
+    PressKey(W)
+    time.sleep(t_time)
+    ReleaseKey(A)
+    ReleaseKey(D)
+
+def left():
+    PressKey(W)
+    PressKey(A)
+    #ReleaseKey(W)
+    ReleaseKey(D)
+    #ReleaseKey(A)
+    time.sleep(t_time)
+    ReleaseKey(A)
+
+def right():
+    PressKey(W)
+    PressKey(D)
+    ReleaseKey(A)
+    #ReleaseKey(W)
+    #ReleaseKey(D)
+    time.sleep(t_time)
+    ReleaseKey(D)
+    
+model = alexnet(WIDTH, HEIGHT, LR)
+model.load(MODEL_NAME)
+
+def main():
+    last_time = time.time()
+    for i in list(range(4))[::-1]:
+        print(i+1)
+        time.sleep(1)
+
+    paused = False
+    while(True):
+        
+        if not paused:
+            # 800x600 windowed mode
+            #screen =  np.array(ImageGrab.grab(bbox=(0,40,800,640)))
+            screen = grab_screen(region=(0,40,800,600))
+            print('loop took {} seconds'.format(time.time()-last_time))
+            last_time = time.time()
+            screen = cv2.cvtColor(screen, cv2.COLOR_BGR2GRAY)
+            screen = cv2.resize(screen, (160,120))
+
+            prediction = model.predict([screen.reshape(160,120,1)])[0]
+            print(prediction)
+
+            turn_thresh = .75
+            fwd_thresh = 0.70
+
+            if prediction[1] > fwd_thresh:
+                straight()
+            elif prediction[0] > turn_thresh:
+                left()
+            elif prediction[2] > turn_thresh:
+                right()
+            else:
+                straight()
+
+        keys = key_check()
+
+        # p pauses game and can get annoying.
+        if 'T' in keys:
+            if paused:
+                paused = False
+                time.sleep(1)
+            else:
+                paused = True
+                ReleaseKey(A)
+                ReleaseKey(W)
+                ReleaseKey(D)
+                time.sleep(1)
+
+main()       
+
+
+```
+
 
 <img src="auto_driving.gif" width="600" height="400">
