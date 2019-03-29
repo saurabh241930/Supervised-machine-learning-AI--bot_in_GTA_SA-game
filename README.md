@@ -147,3 +147,11 @@ we will define go_left or go_right movement function based on the slopes value
 here's how algorithm is playing on first attemp on auto play 
 
 <img src="attemp1.gif">
+
+# Attempt2 (adding CNN classifier)
+Now in this attempt we will **convunational neural network** based classifier 
+**Plan of atack :** 
+1)We will create dataset of differnet driving scenarios along its corresponding output (i.e **[A,W,D]**)
+basically hot array of appropriate direction at that frame [left,foward,right]
+
+
