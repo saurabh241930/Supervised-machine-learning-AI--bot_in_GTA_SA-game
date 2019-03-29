@@ -149,9 +149,13 @@ here's how algorithm is playing on first attemp on auto play
 <img src="attemp1.gif">
 
 # Attempt2 (adding CNN classifier)
-Now in this attempt we will **convunational neural network** based classifier 
+Now in this attempt we will use **convunational neural network** based classifier 
+
 **Plan of atack :** 
+
 1)We will create dataset of differnet driving scenarios along its corresponding output (i.e **[A,W,D]**)
-basically hot array of appropriate direction at that frame [left,foward,right]
+basically one-hot array of appropriate direction at that frame [left,foward,right]
+
+2) For collecting dataset we will record gameplay frames and key press and encode it one-hot error
 
 <img src="auto_driving.gif" width="600" height="400">
