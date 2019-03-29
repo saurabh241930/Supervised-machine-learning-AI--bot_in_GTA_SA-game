@@ -154,4 +154,4 @@ Now in this attempt we will **convunational neural network** based classifier
 1)We will create dataset of differnet driving scenarios along its corresponding output (i.e **[A,W,D]**)
 basically hot array of appropriate direction at that frame [left,foward,right]
 
-
+<img src="auto_driving.gif">
