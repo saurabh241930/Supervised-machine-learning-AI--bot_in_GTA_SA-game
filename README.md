@@ -286,7 +286,8 @@ model = alexnet(WIDTH, HEIGHT, LR)
 
 loading training data into memory
 
-```pyhon
+
+```python
 train_data = np.load('training_data.npy')
 
 train = train_data[:-500]
@@ -316,6 +317,8 @@ test_y = [i[1] for i in test]
 
 Start training
 
+this should save model files in directoy to use that for training 
+
 ```python
 
 model.fit({'input': X}, {'targets': Y}, n_epoch=EPOCHS, validation_set=({'input': test_x}, {'targets': test_y}), 
@@ -324,7 +327,7 @@ model.fit({'input': X}, {'targets': Y}, n_epoch=EPOCHS, validation_set=({'input'
 model.save(MODEL_NAME)
 ```
   
-this should save model files in directoy to use that for training 
+To test the model
 
 ```python
 # test_model.py
@@ -432,4 +435,4 @@ main()
 ```
 
 
-<img src="auto_driving.gif" width="600" height="400">
+<img src="auto_driving.gif" width="800" height="600">
