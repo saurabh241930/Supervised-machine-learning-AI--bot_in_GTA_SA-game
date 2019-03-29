@@ -434,5 +434,6 @@ main()
 
 ```
 
+Here's result on auto_driving mode
 
 <img src="auto_driving.gif" width="800" height="600">
