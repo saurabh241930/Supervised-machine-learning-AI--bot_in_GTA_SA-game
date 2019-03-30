@@ -4,10 +4,14 @@ In this project we will create neural network based model which can drive any ve
 
 # INDEX
 
-* [Approach 1(Open CV way)]()
+* [**`Approach 1(Open CV way)`**]()
 
 
-## SETUP 
+
+
+
+## Approach One (OPEN CV)
+### SETUP 
 ### Image Processing using Open CV
 
 **Plan of Attack:**
