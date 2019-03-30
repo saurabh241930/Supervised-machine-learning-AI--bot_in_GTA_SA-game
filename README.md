@@ -1,6 +1,12 @@
 # AI driving agent in GTA sandreas 
 In this project we will create neural network based model which can drive any vehicle across open world of GTA SA
 
+
+# INDEX
+
+* [Approach 1(Open CV way)]()
+
+
 ## SETUP 
 ### Image Processing using Open CV
 
