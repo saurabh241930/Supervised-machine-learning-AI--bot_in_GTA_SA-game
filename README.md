@@ -5,8 +5,8 @@ In this project we will create neural network based model which can drive any ve
 # INDEX
 
 * [**`Approach 1(Open CV way)`**](https://github.com/saurabh241930/AI_in_GTA_SA#approach-one-open-cv)
-* [**`Approach 2(Image Classifier way)`**]()
-* [**`Approach 3(Object Detection way)`**]()
+* [**`Approach 2(Image Classifier way)`**](https://github.com/saurabh241930/AI_in_GTA_SA#approach-two-convunational-neural-network-classifier-method)
+* [**`Approach 3(Object Detection way)`**](https://github.com/saurabh241930/AI_in_GTA_SA#approach-three-real-time-object-detection-method)
 * [**`Approach 4(Neural Network + Genetic algorithm way)`**]()
 
 
