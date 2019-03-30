@@ -163,7 +163,9 @@ here's how algorithm is playing on first attemp on auto play
 
 <img src="attemp1.gif">
 
-# Attempt2 (adding CNN classifier)
+________________________________________________________________________________________________________________________________________
+
+## `Approach Two (Convunational Neural Network Classifier method)`
 Now in this attempt we will use **convunational neural network** based classifier 
 
 **Plan of atack :** 
@@ -452,3 +454,8 @@ main()
 Here's result on auto_driving mode
 
 <img src="auto_driving.gif" width="800" height="600">
+
+________________________________________________________________________________________________________________________________________
+
+## `Approach Three (Real time Object Detection method)`
+
