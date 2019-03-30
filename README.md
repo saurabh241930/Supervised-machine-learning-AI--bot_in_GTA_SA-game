@@ -503,4 +503,6 @@ with detection_graph.as_default():
           break
 
 ```
+If everything goes correctly it outputs should appear like this 
 
+<img src="detect_object.gif">
