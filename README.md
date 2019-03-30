@@ -15,7 +15,7 @@ In this project we will create neural network based model which can drive any ve
 ________________________________________________________________________________________________________________________________________
 
 
-## `Approach One (OPEN CV)`
+## `APPROACH ONE (OPEN CV)`
 ### SETUP 
 ### Image Processing using Open CV
 
@@ -165,7 +165,7 @@ here's how algorithm is playing on first attemp on auto play
 
 ________________________________________________________________________________________________________________________________________
 
-## `Approach Two (Convunational Neural Network Classifier method)`
+## `APPROACH TWO (Convunational Neural Network Classifier method)`
 Now in this attempt we will use **convunational neural network** based classifier 
 
 **Plan of atack :** 
@@ -457,5 +457,5 @@ Here's result on auto_driving mode
 
 ________________________________________________________________________________________________________________________________________
 
-## `Approach Three (Real time Object Detection method)`
+## `APPROACH THREE (Real time Object Detection method)`
 
